@@ -23,6 +23,9 @@ public class MainActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		ButterKnife.bind(this);
+
+		GetRawData getRawData = new GetRawData();
+		getRawData.execute("http://api.themoviedb.org/3/movie/top_rated?api_key=96b3b30ed4fd5fac8de8fd6aee9f1af6");
 		Log.d(TAG, "onCreate: end");
 	}
 	@Override

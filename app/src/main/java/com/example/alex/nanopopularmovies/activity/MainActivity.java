@@ -1,5 +1,6 @@
 package com.example.alex.nanopopularmovies.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -7,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import com.example.alex.nanopopularmovies.R;
 import com.example.alex.nanopopularmovies.adapter.MoviesAdapter;
@@ -36,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 		recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 		recyclerView.setHasFixedSize(true);
 		recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-		connectAndGetApiData();
+		connectAndGetApiData("top");
 	}
 	public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -44,10 +46,22 @@ public class MainActivity extends AppCompatActivity {
 		inflater.inflate(R.menu.menu, menu);
 		return true;
 	}
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.top:
+				connectAndGetApiData("top");
+				return true;
+			case R.id.pop:
+				connectAndGetApiData("pop");
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
+	}
 
 	// This method create an instance of Retrofit
 // set the base url
-	public void connectAndGetApiData() {
+	public void connectAndGetApiData(String mSwitch) {
 		if (retrofit == null) {
 			retrofit = new Retrofit.Builder()
 				.baseUrl(BASE_URL)
@@ -55,7 +69,9 @@ public class MainActivity extends AppCompatActivity {
 				.build();
 		}
 		MovieApiService movieApiService = retrofit.create(MovieApiService.class);
-		Call<MovieResponse> call = movieApiService.getTopRatedMovies(API_KEY);
+
+		Call<MovieResponse> call;
+		call = caller(mSwitch);
 		call.enqueue(new Callback<MovieResponse>() {
 			@Override
 			public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
@@ -70,6 +86,22 @@ public class MainActivity extends AppCompatActivity {
 				Log.e(TAG, throwable.toString());
 			}
 		});
+	}
+
+	public Call caller(String mSwitch) {
+		MovieApiService movieApiService = retrofit.create(MovieApiService.class);
+		Call<MovieResponse> call;
+		switch (mSwitch) {
+			case "top":
+				call = movieApiService.getTopRatedMovies(API_KEY);
+				return call;
+			case "pop":
+				call = movieApiService.getPopularMovies(API_KEY);
+				return call;
+			default:
+				call = movieApiService.getTopRatedMovies(API_KEY);
+				return call;
+		}
 	}
 
 	//

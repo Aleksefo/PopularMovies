@@ -17,7 +17,10 @@
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
     </activity>
-    <activity android:name=".activity.DetailsActivity"></activity>
+    <activity
+      android:name=".activity.DetailsActivity"
+      android:theme="@style/NoBarAppTheme"
+      android:parentActivityName="com.example.alex.nanopopularmovies.activity.MainActivity"></activity>
   </application>
 
 </manifest>

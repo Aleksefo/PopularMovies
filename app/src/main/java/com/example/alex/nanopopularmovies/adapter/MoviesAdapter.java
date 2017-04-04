@@ -54,11 +54,8 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
 			v.setOnClickListener(new View.OnClickListener() {
 				@Override public void onClick(View v) {
 					int pos = getAdapterPosition();
-					Toast.makeText(v.getContext(), movies.get(pos).getPosterPath(), Toast.LENGTH_SHORT).show();
-
 					Context context = v.getContext();
 					Intent intent = new Intent(context, DetailsActivity.class);
-					Log.d(TAG, "onClick: "+new Gson().toJson(getPhoto(pos)));
 					intent.putExtra("DATA", new Gson().toJson(getPhoto(pos)));
 					context.startActivity(intent);
 				}
@@ -82,7 +79,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
 		String image_url = IMAGE_URL_BASE_PATH + movies.get(position).getPosterPath();
 		Picasso.with(context)
 			.load(image_url)
-			.placeholder(android.R.drawable.sym_def_app_icon)
+			.placeholder(android.R.drawable.gallery_thumb)
 			.error(android.R.drawable.sym_def_app_icon)
 			.into(holder.movieImage);
 //		holder.movieTitle.setText(movies.get(position).getTitle());

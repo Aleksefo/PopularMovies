@@ -4,9 +4,10 @@ import static com.example.alex.nanopopularmovies.adapter.MoviesAdapter.IMAGE_URL
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.BindView;
@@ -31,10 +32,19 @@ public class DetailsActivity extends AppCompatActivity {
 	TextView voteAverage;
 	@BindView(R.id.overview)
 	TextView overview;
+	@BindView(R.id.backdrop)
+	ImageView backdrop;
+	@BindView(R.id.back)
+	ImageView back;
+	@BindView(R.id.title)
+	TextView title;
+	@BindView(R.id.activity_details)
+	ConstraintLayout activityDetails;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		supportRequestWindowFeature(AppCompatDelegate.FEATURE_SUPPORT_ACTION_BAR_OVERLAY);
 		setContentView(R.layout.activity_details);
 		ButterKnife.bind(this);
 
@@ -51,8 +61,9 @@ public class DetailsActivity extends AppCompatActivity {
 				e.printStackTrace();
 			}
 
-			voteAverage.setText("Average Rating: "+movie.getVoteAverage().toString()+"/10");
+			voteAverage.setText("Average Rating: " + movie.getVoteAverage().toString() + "/10");
 			overview.setText(movie.getOverview());
+			title.setText(movie.getTitle());
 //
 //			TextView photoTags = (TextView) findViewById(R.id.photo_tags);
 //			photoTags.setText("Tags: " + photo.getTags());
@@ -61,29 +72,24 @@ public class DetailsActivity extends AppCompatActivity {
 //			photoAuthor.setText(photo.getAuthor());
 //
 			String image_url = IMAGE_URL_BASE_PATH + movie.getPosterPath();
-			Log.d(TAG, "onCreate: " + image_url);
 			Picasso.with(this)
 				.load(image_url)
 				.placeholder(android.R.drawable.sym_def_app_icon)
 				.error(android.R.drawable.sym_def_app_icon)
 				.into(poster);
-
-//			Picasso.with(this).load(photo.getLink())
-//				.error(R.drawable.placeholder)
-//				.placeholder(R.drawable.placeholder)
-//				.into(photoImage);
+			String backdrop_url = IMAGE_URL_BASE_PATH + movie.getBackdropPath();
+			Log.d(TAG, "onCreate: " + backdrop_url);
+			Picasso.with(this)
+				.load(backdrop_url)
+				.placeholder(android.R.drawable.sym_def_app_icon)
+				.error(android.R.drawable.sym_def_app_icon)
+				.into(backdrop);
 		}
 	}
 
-	@OnClick({R.id.releaseDate, R.id.voteAverage, R.id.overview})
-	public void onViewClicked(View view) {
-		switch (view.getId()) {
-			case R.id.releaseDate:
-				break;
-			case R.id.voteAverage:
-				break;
-			case R.id.overview:
-				break;
-		}
+	@OnClick(R.id.back)
+	public void onViewClicked() {
+		Intent intent = new Intent(this, MainActivity.class);
+		startActivity(intent);
 	}
 }

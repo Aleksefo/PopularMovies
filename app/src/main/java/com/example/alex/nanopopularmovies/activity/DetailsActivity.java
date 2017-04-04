@@ -24,6 +24,8 @@ import java.util.Date;
 public class DetailsActivity extends AppCompatActivity {
 
 	private static final String TAG = "DetailsActivity";
+	private boolean isStarred = false;
+
 	@BindView(R.id.poster)
 	ImageView poster;
 	@BindView(R.id.releaseDate)
@@ -40,6 +42,8 @@ public class DetailsActivity extends AppCompatActivity {
 	TextView title;
 	@BindView(R.id.activity_details)
 	ConstraintLayout activityDetails;
+	@BindView(R.id.star)
+	ImageView star;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +54,25 @@ public class DetailsActivity extends AppCompatActivity {
 
 		Intent intent = getIntent();
 		Movie movie = (new Gson()).fromJson(intent.getStringExtra("DATA"), Movie.class);
+		populateDATA(movie);
+	}
+
+	@OnClick(R.id.back)
+	public void onBackClicked() {
+		Intent intent = new Intent(this, MainActivity.class);
+		startActivity(intent);
+	}
+
+	@OnClick(R.id.star)
+	public void onStarClicked() {
+		isStarred = !isStarred;
+		star.setImageResource(
+			isStarred ? android.R.drawable.btn_star_big_on : android.R.drawable.btn_star_big_off);
+//		}
+	}
+
+	public void populateDATA(Movie movie) {
+
 		if (movie != null) {
 
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -64,13 +87,7 @@ public class DetailsActivity extends AppCompatActivity {
 			voteAverage.setText("Average Rating: " + movie.getVoteAverage().toString() + "/10");
 			overview.setText(movie.getOverview());
 			title.setText(movie.getTitle());
-//
-//			TextView photoTags = (TextView) findViewById(R.id.photo_tags);
-//			photoTags.setText("Tags: " + photo.getTags());
-//
-//			TextView photoAuthor = (TextView) findViewById(R.id.photo_author);
-//			photoAuthor.setText(photo.getAuthor());
-//
+
 			String image_url = IMAGE_URL_BASE_PATH + movie.getPosterPath();
 			Picasso.with(this)
 				.load(image_url)
@@ -85,11 +102,5 @@ public class DetailsActivity extends AppCompatActivity {
 				.error(android.R.drawable.sym_def_app_icon)
 				.into(backdrop);
 		}
-	}
-
-	@OnClick(R.id.back)
-	public void onViewClicked() {
-		Intent intent = new Intent(this, MainActivity.class);
-		startActivity(intent);
 	}
 }

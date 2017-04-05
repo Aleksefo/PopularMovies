@@ -1,8 +1,11 @@
 package com.example.alex.nanopopularmovies.rest;
 
+import static android.R.attr.id;
+
 import com.example.alex.nanopopularmovies.model.MovieResponse;
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface MovieApiService {
@@ -10,4 +13,12 @@ public interface MovieApiService {
 	Call<MovieResponse> getTopRatedMovies(@Query("api_key") String apiKey);
 	@GET("movie/popular")
 	Call<MovieResponse> getPopularMovies(@Query("api_key") String apiKey);
+	@GET("/movie/{id}/videos")
+	Call<MovieResponse> getTrailers(@Path("id") int movieId);
+	@GET("/movie/{id}/reviews")
+	Call<MovieResponse> getReviews(@Path("id") int movieId);
+	
+//	@GET("/movie/{id}/reviews") Observable<Review.Response> reviews(
+//		@Path("id") long movieId,
+//		@Query("page") int page);
 }

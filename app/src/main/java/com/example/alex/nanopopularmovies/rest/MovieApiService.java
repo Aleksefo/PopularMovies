@@ -17,7 +17,7 @@ public interface MovieApiService {
 	Call<MovieResponse> getTrailers(@Path("id") int movieId);
 	@GET("/movie/{id}/reviews")
 	Call<MovieResponse> getReviews(@Path("id") int movieId);
-	
+
 //	@GET("/movie/{id}/reviews") Observable<Review.Response> reviews(
 //		@Path("id") long movieId,
 //		@Query("page") int page);

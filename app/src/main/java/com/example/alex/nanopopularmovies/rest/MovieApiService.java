@@ -1,6 +1,5 @@
 package com.example.alex.nanopopularmovies.rest;
 
-import static android.R.attr.id;
 
 import com.example.alex.nanopopularmovies.model.MovieResponse;
 import retrofit2.Call;

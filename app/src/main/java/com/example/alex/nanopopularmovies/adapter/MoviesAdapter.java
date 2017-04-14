@@ -1,19 +1,13 @@
 package com.example.alex.nanopopularmovies.adapter;
 
-import static android.R.attr.start;
-import static android.content.ContentValues.TAG;
-
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 import com.example.alex.nanopopularmovies.R;
 import com.example.alex.nanopopularmovies.activity.DetailsActivity;
 import com.example.alex.nanopopularmovies.model.Movie;
@@ -25,7 +19,6 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
 	private static List<Movie> movies;
 	private int rowLayout;
 	private Context context;
-	public String gson;
 	public static final String IMAGE_URL_BASE_PATH="http://image.tmdb.org/t/p/w500//";
 
 	public MoviesAdapter(List<Movie> movies, int rowLayout, Context context) {
@@ -38,19 +31,13 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
 	//A view holder inner class where we get reference to the views in the layout using their ID
 	public static class MovieViewHolder extends RecyclerView.ViewHolder {
 		LinearLayout moviesLayout;
-//		TextView movieTitle;
-//		TextView data;
-//		TextView movieDescription;
-//		TextView rating;
 		ImageView movieImage;
+		ImageView backdropImage;
 		public MovieViewHolder(View v) {
 			super(v);
 			moviesLayout = (LinearLayout) v.findViewById(R.id.movies_layout);
 			movieImage = (ImageView) v.findViewById(R.id.movie_image);
-//			movieTitle = (TextView) v.findViewById(R.id.title);
-//			data = (TextView) v.findViewById(R.id.date);
-//			movieDescription = (TextView) v.findViewById(R.id.description);
-//			rating = (TextView) v.findViewById(R.id.rating);
+			backdropImage = (ImageView) v.findViewById(R.id.backdrop);
 			v.setOnClickListener(new View.OnClickListener() {
 				@Override public void onClick(View v) {
 					int pos = getAdapterPosition();
@@ -82,10 +69,13 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
 			.placeholder(android.R.drawable.gallery_thumb)
 			.error(android.R.drawable.sym_def_app_icon)
 			.into(holder.movieImage);
-//		holder.movieTitle.setText(movies.get(position).getTitle());
-//		holder.data.setText(movies.get(position).getReleaseDate());
-//		holder.movieDescription.setText(movies.get(position).getOverview());
-//		holder.rating.setText(movies.get(position).getVoteAverage().toString());
+		//to preload backdrop img
+//		String backdrop_url = IMAGE_URL_BASE_PATH + movies.get(position).getBackdropPath();
+//		Picasso.with(context)
+//			.load(backdrop_url)
+//			.placeholder(android.R.drawable.sym_def_app_icon)
+//			.error(android.R.drawable.sym_def_app_icon)
+//			.into(holder.backdropImage);
 	}
 	@Override
 	public int getItemCount() {

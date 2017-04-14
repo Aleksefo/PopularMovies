@@ -68,7 +68,6 @@ public class DetailsActivity extends AppCompatActivity {
 		isStarred = !isStarred;
 		star.setImageResource(
 			isStarred ? android.R.drawable.btn_star_big_on : android.R.drawable.btn_star_big_off);
-//		}
 	}
 
 	public void populateDATA(Movie movie) {
